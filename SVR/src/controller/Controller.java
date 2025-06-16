@@ -23,22 +23,46 @@ public class Controller {
     private ArrayList<User> userList = new ArrayList<>();
     private ArrayList<Meal> mealList = new ArrayList<>();
     
-    public void addRegularStudent(String name, MealType preference, String login, String password) {
-        User user = new RegularStudent(name, preference);
-        user.createAccount(login, password);
-        userList.add(user);
+    public boolean addRegularStudent(String name, MealType preference, String login, String password) {
+        if(getUserByLogin(login) == null) {
+            User user = new RegularStudent(name, preference);
+            if(user.createAccount(login, password)) {
+                userList.add(user);
+                return true;
+            }
+        }
+        return false;
     }
     
-    public void addPermanenceStudent(String name, MealType preference, Double discount, String login, String password) {
-        User user = new PermanenceStudent(name, preference, discount);
-        user.createAccount(login, password);
-        userList.add(user);
+    public boolean addPermanenceStudent(String name, MealType preference, Double discount, String login, String password) {
+        if(getUserByLogin(login) == null) {
+            User user = new PermanenceStudent(name, preference, discount);
+            if(user.createAccount(login, password)) {
+                userList.add(user);
+                return true;
+            }
+        }
+        return false;
     }
     
-    public void addTeacher(String name, MealType preference, String login, String password) {
-        User user = new Teacher(name, preference);
-        user.createAccount(login, password);
-        userList.add(user);
+    public boolean addTeacher(String name, MealType preference, String login, String password) {
+        if(getUserByLogin(login) == null) {
+            User user = new Teacher(name, preference);
+            if(user.createAccount(login, password)) {
+                userList.add(user);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public User getUserByLogin(String login) {
+        for(User user : userList) {
+            if(user.getAccount().getLogin().equals(login)) {
+                return user;
+            }
+        }
+        return null;
     }
     
     public User getUserByLoginAndPassword(String login, String password) {
@@ -53,14 +77,25 @@ public class Controller {
     public User userLogin(String login, String password) {
         User user = getUserByLoginAndPassword(login, password);
         if(user != null) {
-            user.login(login, password);
-            return user;
+            if(user.login(login, password)) {
+                return user;
+            }
         }
         return null;
     }
     
-    public void addCredit(User user, Double credit) {
-        user.addCredit(credit);
+    public boolean userLogout(User user) {
+        if(user.logout()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean addCredit(User user, Double credit) {
+        if(user.addCredit(credit)) {
+            return true;
+        }
+        return false;
     }
     
     public void addMeal(String description, MealType type, double price) {
@@ -77,11 +112,13 @@ public class Controller {
         return null;
     }
     
-    public void buyMeal(User user, String description) {
+    public boolean buyMeal(User user, String description) {
         Meal meal = getMealByDescription(description);
         if(meal != null) {
             user.buyMeal(meal);
+            return true;
         }
+        return false;
     }
     
     public Account getAccountByLogin(String login) {
@@ -94,34 +131,37 @@ public class Controller {
         return null;
     }
     
-    public void transferMeal(User user, String targetLogin, String description) {
+    public int transferMeal(User user, String targetLogin, String description) {
         Account targetAccount = getAccountByLogin(targetLogin);
         if(targetAccount != null) {
-            user.transferMeal(description, targetAccount);
+            return user.transferMeal(description, targetAccount);
         }
+        return -3; //Conta com esse login não encontrada
     }
     
-    public void displayUser(User user) {
-        user.toString();
+    public String displayUser(User user) {
+        return user.toString();
     }
     
-    public void displayUserList() {
-        System.out.println("Lista de Usuarios no Sistema:\n");
+    public String displayUserList() {
+        String string = "Lista de Usuarios no Sistema\n\n";
         for(User user : userList) {
-            user.toString();
-            System.out.println("==================================\n");
+            string += user.toString();
+            string += "\n==================================\n";
         }
+        return string;
     }
     
-    public void displayMeal(Meal meal) {
-        meal.toString();
+    public String displayMeal(Meal meal) {
+        return meal.toString();
     }
     
-    public void displayMealList() {
-        System.out.println("Lista de Refeicoes no Sistema:\n");
+    public String displayMealList() {
+        String string = "Lista de Refeicoes no Sistema\n\n";
         for(Meal meal : mealList) {
-            meal.toString();
-            System.out.println("==================================\n");
+            string += meal.toString();
+            string += "\n==================================\n";
         }
+        return string;
     }
 }

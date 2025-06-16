@@ -23,16 +23,12 @@ public class RegularStudent extends Student {
     }
     
     @Override
-    public void buyMeal(Meal meal) {
-        if(this.account.getIsLoggedIn() == true) {
-            if(this.account.getCredit() >= meal.getPrice()) {
-                this.account.setCredit(this.account.getCredit() - meal.getPrice());
-                this.account.addMeal(meal);
-            } else {
-                System.out.println("Credito insuficiente para a transacao.");
-            }
-        } else {
-            System.out.println("O usuario nao esta logado.");
+    public boolean buyMeal(Meal meal) {
+        if(this.account.getCredit() >= meal.getPrice()) {
+            this.account.setCredit(this.account.getCredit() - meal.getPrice());
+            this.account.addMeal(meal);
+            return true;
         }
+        return false;
     }
 }
