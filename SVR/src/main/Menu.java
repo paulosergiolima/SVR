@@ -5,7 +5,10 @@
 package main;
 
 import controller.Controller;
+import java.util.ArrayList;
 import java.util.Scanner;
+import model.Admin;
+import model.Meal;
 import model.MealType;
 import model.User;
 
@@ -23,9 +26,22 @@ public class Menu {
     }
     
     public void displayMenu() {
+        //Admin e refeições adicionadas no Menu temporariamente até a implementação do login do admin
+        Admin admin = new Admin("Admin01");
+        System.out.println("Admin:\n" + admin.toString() + "\n");
+        System.out.print("==================================");
+        
+        ctrl.addMeal("Bolo de Carne Moida", MealType.OMNIVOROUS, 2.5);
+        ctrl.addMeal("Fricasse de Frango", MealType.OMNIVOROUS, 2.5);
+        ctrl.addMeal("Carne de Panela", MealType.OMNIVOROUS, 2.5);
+        ctrl.addMeal("File de Frango Grelhado", MealType.OMNIVOROUS, 2.5);
+        ctrl.addMeal("Carne Assada", MealType.OMNIVOROUS, 2.5);
+        ctrl.addMeal("Ovos Mexidos com Ervilha", MealType.VEGETARIAN, 2.5);
+        ctrl.addMeal("Strogonoff de Carnes", MealType.OMNIVOROUS, 2.5);
+        
         int op;
         do {
-            System.out.println("MENU INICIAL:");
+            System.out.println("\nMENU INICIAL:");
             System.out.println("1 - Criar conta de usuario");
             System.out.println("2 - Criar conta de admin"); //W.I.P
             System.out.println("3 - Logar na conta de usuario");
@@ -47,27 +63,34 @@ public class Menu {
                     break;
                 case 4:
                     //W.I.P
+                    break;
                 case 0:
-                    System.out.println("Processo encerrado.");
+                    System.out.println("\nProcesso encerrado.");
                     break;
                 default:
-                    System.out.println("Opcao invalida. Tente novamente.");
+                    System.out.println("\nOpcao invalida. Tente novamente.");
                     break;
             }
         } while(op != 0);
     }
     
     public void addUser() {
-        System.out.print("Digite o nome de usuario: ");
+        System.out.print("\nDigite o nome de usuario: ");
         String name = sc.nextLine();
+        
+        System.out.print("\nDigite o login: ");
+        String login = sc.nextLine();
+        
+        System.out.print("\nDigite a senha: ");
+        String password = sc.nextLine();
         
         MealType preference = null;
         int op1, op2;
         do {
-            System.out.println("1 - Onivoro");
+            System.out.println("\n1 - Onivoro");
             System.out.println("2 - Vegetariano");
             System.out.println("3 - Vegano");
-            System.out.print("Digite o numero correspondente a opcao desejada: ");
+            System.out.print("Digite o numero correspondente a sua preferencia alimentar: ");
             op1 = sc.nextInt();
             sc.nextLine();
             switch(op1) {
@@ -81,99 +104,156 @@ public class Menu {
                    preference = MealType.VEGAN;
                    break;
                 default:
-                   System.out.println("Opcao invalida. Tente novamente.");
+                   System.out.println("\nOpcao invalida. Tente novamente.");
                    break;
             }
         } while(op1 != 1 && op1 != 2 && op1 != 3);
         
-        System.out.print("Digite o login: ");
-        String login = sc.nextLine();
-        
-        System.out.print("Digite a senha: ");
-        String password = sc.nextLine();
-        
         do {
-            System.out.println("1 - Aluno Regular");
-            System.out.println("2 - Aluno Preferência");
+            System.out.println("\n1 - Aluno Regular");
+            System.out.println("2 - Aluno Preferencia");
             System.out.println("3 - Professor");
-            System.out.print("Digite o numero correspondente a opcao desejada: ");
+            System.out.print("Digite o numero correspondente ao seu tipo de usuario: ");
             op2 = sc.nextInt();
             sc.nextLine();
             switch(op2) {
                 case 1:
-                    ctrl.addRegularStudent(name, preference, login, password);
-                    System.out.println("Conta criada com sucesso.");
+                    if(ctrl.addRegularStudent(name, preference, login, password)) {
+                        System.out.println("\nConta criada com sucesso.");
+                    } else {
+                        System.out.println("\nJa existe um usuario com o login inserido.");
+                    }
                     break;
                 case 2:
-                    ctrl.addPermanenceStudent(name, preference, 0.30, login, password);
-                    System.out.println("Conta criada com sucesso.");
+                    if(ctrl.addPermanenceStudent(name, preference, 0.30, login, password)) {
+                        System.out.println("\nConta criada com sucesso.");
+                    } else {
+                        System.out.println("\nJa existe um usuario com o login inserido.");
+                    }
                     break;
                 case 3:
-                    ctrl.addTeacher(name, preference, login, password);
-                    System.out.println("Conta criada com sucesso.");
+                    if(ctrl.addTeacher(name, preference, login, password)) {
+                        System.out.println("\nConta criada com sucesso.");
+                    } else {
+                        System.out.println("\nJa existe um usuario com o login inserido.");
+                    }
                     break;
                 default:
-                    System.out.println("Opcao invalida. Tente novamente.");
+                    System.out.println("\nOpcao invalida. Tente novamente.");
                     break;
             }
         } while(op2 != 1 && op2 != 2 && op2 != 3);
     }
     
+    //Importante melhorar a validação do login
     public void userLogin() {
-        System.out.print("Digite o login: ");
+        System.out.print("\nDigite o login: ");
         String login = sc.nextLine();
-        System.out.print("Digite a senha: ");
+        System.out.print("\nDigite a senha: ");
         String password = sc.nextLine();
         User user = ctrl.userLogin(login, password);
-        
-        int op3;
-        do {
-            System.out.println("MENU DE USUARIO");
-            System.out.println("1 - Adicionar credito");
-            System.out.println("2 - Comprar refeicao");
-            System.out.println("3 - Transferir refeicao");
-            System.out.println("0 - Voltar");
-            System.out.print("Digite o numero correspondente a opcao desejada: ");
-            op3 = sc.nextInt();
-            sc.nextLine();
-            switch(op3) {
-                case 1:
-                    addCredit(user);
-                    break;
-                case 2:
-                    buyMeal(user);
-                    break;
-                case 3:
-                    transferMeal(user);
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Opcao invalida. Tente novamente.");
-                    break;
-            }
-        } while(op3 != 0);
+        if(user != null) {
+            System.out.println("\nLogin efetuado com sucesso.");
+            
+            int op3;
+            do {
+                System.out.println("\nMENU DE USUARIO");
+                System.out.println("1 - Adicionar credito");
+                System.out.println("2 - Comprar refeicao");
+                System.out.println("3 - Transferir refeicao");
+                System.out.println("4 - Exibir informacoes do usuario");
+                System.out.println("5 - Exibir lista de refeicoes disponiveis para compra");
+                System.out.println("0 - Deslogar");
+                System.out.print("Digite o numero correspondente a opcao desejada: ");
+                op3 = sc.nextInt();
+                sc.nextLine();
+                switch(op3) {
+                    case 1:
+                        addCredit(user);
+                        break;
+                    case 2:
+                        buyMeal(user);
+                        break;
+                    case 3:
+                        transferMeal(user);
+                        break;
+                    case 4:
+                        displayUser(user);
+                        break;
+                    case 5:
+                        displayMealList();
+                        break;
+                    case 0:
+                        userLogout(user);
+                        break;
+                    default:
+                        System.out.println("\nOpcao invalida. Tente novamente.");
+                        break;
+                }
+            } while(op3 != 0);
+            
+        } else {
+            System.out.println("\nLogin ou senha incorretos.");
+        }
     }
     
     public void addCredit(User user) {
-        System.out.print("Digite o valor a ser adicionado: ");
+        System.out.print("\nDigite o valor a ser adicionado: ");
         double credit = sc.nextDouble();
         sc.nextLine();
-        ctrl.addCredit(user, credit);
+        if(ctrl.addCredit(user, credit)) {
+            System.out.println("\nCredito adicionado com sucesso.");
+        } else {
+            System.out.println("\nImpossivel adicionar credito negativo.");
+        }
     }
     
     //Precisa mudar o método de compra de refeição ao implementar a venda
     public void buyMeal(User user) {
-        System.out.print("Digite a descricao da refeicao: ");
+        System.out.print("\nDigite a descricao da refeicao: ");
         String description = sc.nextLine();
-        ctrl.buyMeal(user, description);
+        if(ctrl.buyMeal(user, description)) {
+            System.out.println("\nRefeicao comprada com sucesso.");
+        } else {
+            System.out.println("\nCredito insuficiente para a transacao.");
+        }
     }
     
     public void transferMeal(User user) {
-        System.out.print("Digite o login da conta alvo da transferencia: ");
+        System.out.print("\nDigite o login da conta alvo da transferencia: ");
         String login = sc.nextLine();
-        System.out.print("Digite a descricao da refeicao a ser transferida: ");
+        System.out.print("\nDigite a descricao da refeicao a ser transferida: ");
         String description = sc.nextLine();
-        ctrl.transferMeal(user, login, description);
-    }  
+        switch(ctrl.transferMeal(user, login, description)) {
+            case 1:
+                System.out.println("\nRefeicao transferida com sucesso.");
+                break;
+            case -1:
+                System.out.println("\nA refeicao nao existe na lista de refeicoes do usuario.");
+                break;
+            case -2:
+                System.out.println("\nImpossivel transferir a refeicao para si mesmo.");
+                break;
+            case -3:
+                System.out.println("\nConta com o login inserido nao encontrada.");
+                break;
+        }
+    }
+    
+    public void displayUser(User user) {
+        System.out.println("\nInformacoes do usuario:\n");
+        System.out.println(ctrl.displayUser(user));
+    }
+    
+    public void displayMealList() {
+        System.out.println("\n" + ctrl.displayMealList());
+    }
+    
+    public void userLogout(User user) {
+        if(ctrl.userLogout(user)) {
+            System.out.println("\nConta deslogada com sucesso.");
+        } else {
+            System.out.println("\nFalha ao deslogar.");
+        }
+    }
 }

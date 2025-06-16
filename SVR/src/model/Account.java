@@ -84,11 +84,11 @@ public class Account {
     public String toString() {
         String mealListString = "";
         for(Meal meal : mealList) {
-            mealListString += meal.toString() + "\n\n";
+            mealListString += meal.toString() + "\n==================================\n";
         }
         return "Login: " + login +
                "\nCredito: R$" + String.format("%.2f", credit) +
-               "\nLista de Refeicoes do Usuario:\n" + 
+               "\n\nLista de Refeicoes do Usuario:\n" + 
                "\n" + mealListString;
                
     }

@@ -52,51 +52,52 @@ public abstract class User {
     
     public abstract String toString();
     
-    public void createAccount(String login, String password) {
+    public boolean createAccount(String login, String password) {
         if(this.account == null) {
             this.account = new Account(login, password);
+            return true;
         } else {
-            System.out.println("O usuario ja possui uma conta.");
+            return false;
         }
     }
-    
-    public void login(String login, String password) {
-        if(this.account == null) {
-            System.out.println("O usuario nao possui uma conta.");
-        } else if(this.account.getIsLoggedIn() == true) {
-            System.out.println("O usuario ja esta logado.");
-        } else if (this.account.getLogin().equals(login) && this.account.getPassword().equals(password)){
+
+    public boolean login(String login, String password) {
+        if(this.account.getLogin().equals(login) && this.account.getPassword().equals(password)) {
             this.account.setIsLoggedIn(true);
-        } else {
-            System.out.println("Login ou senha incorretos.");
+            return true;
         }
+        return false;
     }
     
-    public void addCredit(double credit) {
-        if(this.account.getIsLoggedIn() == true) {
-            if(credit >= 0) {
-                this.account.setCredit(credit);
-            } else {
-                System.out.println("Impossivel adicionar credito negativo.");
-            }
-        } else {
-            System.out.println("O usuario nao esta logado.");
+    public boolean logout() {
+        if(this.account.getIsLoggedIn()) {
+            this.account.setIsLoggedIn(false);
+            return true;
         }
+        return false;
     }
     
-    public abstract void buyMeal(Meal meal);
+    public boolean addCredit(double credit) {
+        if(credit >= 0) {
+            this.account.setCredit(credit);
+            return true;
+        }
+        return false;
+    }
     
-    public void transferMeal(String description, Account targetAccount) {
-        if(this.account.getIsLoggedIn() == true) {
+    public abstract boolean buyMeal(Meal meal);
+    
+    public int transferMeal(String description, Account targetAccount) {
+        if(targetAccount != this.account) {
             Meal meal = this.account.getMealByDescription(description);
             if(meal != null) {
                 targetAccount.addMeal(meal);
                 this.account.removeMeal(meal);
-            } else {
-                System.out.println("A refeicao nao existe na lista de refeicoes do usuario.");
+                return 1;
             }
-        } else {
-            System.out.println("O usuario nao esta logado.");
+            return -1; //Refeição não encontrada na lista de refeições do usuário
         }
+        return -2; //Tentativa de transferir a refeição para si mesmo
     }
+    //Nota: Interessante trocar os retornos de inteiros para exceções
 }
