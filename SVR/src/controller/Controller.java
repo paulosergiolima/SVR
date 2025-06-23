@@ -15,13 +15,57 @@ import model.Teacher;
 
 import java.util.ArrayList;
 import model.Account;
+import model.Sale;
 /**
  *
  * @author Roberto Augusto
  */
 public class Controller {
+    private Admin admin = null;
+    private Sale currentSale = null;
+    private double permanenceDiscount = 0.30;
     private ArrayList<User> userList = new ArrayList<>();
     private ArrayList<Meal> mealList = new ArrayList<>();
+    
+    public ArrayList<Meal> getMealList() {
+        return mealList;
+    } 
+    
+    public boolean setAdmin(Admin admin) {
+        if(this.admin != null) {
+            return false; // Já existe um admin
+        }
+        this.admin = admin;
+        return true;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+    
+    public void setCurrentSale(Sale currentSale) {
+        this.currentSale = currentSale;
+    }
+    
+    public Sale getCurrentSale() {
+        return currentSale;
+    }
+    
+    public boolean setPermanenceDiscount(double permanenceDiscount) {
+        if(permanenceDiscount > 0 && permanenceDiscount < 1) {
+            this.permanenceDiscount = permanenceDiscount;
+            return true;
+        }
+        return false;
+    }
+    
+    public double getPermanenceDiscount() {
+        return permanenceDiscount;
+    }
+    
+    public String displayAdmin() {
+        return admin.toString();
+    }
     
     public boolean addRegularStudent(String name, MealType preference, String login, String password) {
         if(getUserByLogin(login) == null) {
@@ -34,9 +78,9 @@ public class Controller {
         return false;
     }
     
-    public boolean addPermanenceStudent(String name, MealType preference, Double discount, String login, String password) {
+    public boolean addPermanenceStudent(String name, MealType preference, String login, String password) {
         if(getUserByLogin(login) == null) {
-            User user = new PermanenceStudent(name, preference, discount);
+            User user = new PermanenceStudent(name, preference, permanenceDiscount);
             if(user.createAccount(login, password)) {
                 userList.add(user);
                 return true;
@@ -74,6 +118,17 @@ public class Controller {
         return null;
     }
     
+    public Admin adminLogin(String login, String password) {
+        if(this.admin.login(login, password)) {
+            return admin;
+        }
+        return null;
+    }
+    
+    public boolean adminLogout() {
+        return this.admin.logout();
+    }
+    
     public User userLogin(String login, String password) {
         User user = getUserByLoginAndPassword(login, password);
         if(user != null) {
@@ -85,10 +140,7 @@ public class Controller {
     }
     
     public boolean userLogout(User user) {
-        if(user.logout()) {
-            return true;
-        }
-        return false;
+        return user.logout();
     }
     
     public boolean addCredit(User user, Double credit) {
@@ -103,6 +155,26 @@ public class Controller {
         mealList.add(meal);
     }
     
+    public boolean addMealToSaleByIndex(int index, Sale sale) {
+        if(index > 0 && index < mealList.size()) {
+            sale.addMeal(mealList.get(index));
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isValidSale(Sale sale) {
+        return sale.isValidSale();
+    }
+    
+    public boolean removeMealByIndex(int index) {
+        if(index > 0 && index < mealList.size()) {
+            mealList.remove(mealList.get(index));
+            return true;
+        }
+        return false;
+    }
+    
     public Meal getMealByDescription(String description) {
         for(Meal meal : mealList) {
             if(meal.getDescription().equals(description)) {
@@ -112,8 +184,8 @@ public class Controller {
         return null;
     }
     
-    public boolean buyMeal(User user, String description) {
-        Meal meal = getMealByDescription(description);
+    public boolean buyMeal(User user, int index) {
+        Meal meal = currentSale.getMealList().get(index);
         if(meal != null) {
             user.buyMeal(meal);
             return true;
@@ -131,10 +203,10 @@ public class Controller {
         return null;
     }
     
-    public int transferMeal(User user, String targetLogin, String description) {
+    public int transferMeal(User user, String targetLogin, int index) {
         Account targetAccount = getAccountByLogin(targetLogin);
         if(targetAccount != null) {
-            return user.transferMeal(description, targetAccount);
+            return user.transferMeal(index, targetAccount);
         }
         return -3; //Conta com esse login não encontrada
     }
@@ -152,16 +224,24 @@ public class Controller {
         return string;
     }
     
+    public String displayUserMealList(User user) {
+        return user.getAccount().displayMealList();
+    }
+    
     public String displayMeal(Meal meal) {
         return meal.toString();
     }
     
     public String displayMealList() {
         String string = "Lista de Refeicoes no Sistema\n\n";
-        for(Meal meal : mealList) {
-            string += meal.toString();
+        for(int i = 0; i < mealList.size(); i++) {
+            string += (i + 1) + ":\n" + mealList.get(i).toString();
             string += "\n==================================\n";
         }
         return string;
+    }
+    
+    public String displayCurrentSale() {
+        return currentSale.toString();
     }
 }

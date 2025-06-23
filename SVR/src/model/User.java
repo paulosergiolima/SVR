@@ -87,9 +87,9 @@ public abstract class User {
     
     public abstract boolean buyMeal(Meal meal);
     
-    public int transferMeal(String description, Account targetAccount) {
+    public int transferMeal(int index, Account targetAccount) {
         if(targetAccount != this.account) {
-            Meal meal = this.account.getMealByDescription(description);
+            Meal meal = this.account.getMealByIndex(index);
             if(meal != null) {
                 targetAccount.addMeal(meal);
                 this.account.removeMeal(meal);
