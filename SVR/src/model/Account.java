@@ -81,6 +81,10 @@ public class Account {
         return null;
     }
     
+    public Meal getMealByIndex(int index) {
+        return mealList.get(index);
+    }
+    
     public String toString() {
         String mealListString = "";
         for(Meal meal : mealList) {
@@ -91,5 +95,14 @@ public class Account {
                "\n\nLista de Refeicoes do Usuario:\n" + 
                "\n" + mealListString;
                
+    }
+    
+    public String displayMealList() {
+        String string = "Lista de Refeicoes do Usuario\n\n";
+        for(int i = 0; i < mealList.size(); i++) {
+            string += (i + 1) + ":\n" + mealList.get(i).toString();
+            string += "\n==================================\n";
+        }
+        return string;
     }
 }
