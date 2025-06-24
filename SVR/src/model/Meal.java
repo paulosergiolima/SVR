@@ -22,21 +22,21 @@ public class Meal {
     public String getDescription() {
         return description;
     }
+    
+    public MealType getType() {
+        return type;
+    }
+    
+    public double getPrice() {
+        return price;
+    }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public MealType getType() {
-        return type;
-    }
-
     public void setType(MealType type) {
         this.type = type;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public void setPrice(double price) {

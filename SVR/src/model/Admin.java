@@ -31,33 +31,39 @@ public class Admin {
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    
+        
     public String getLogin() {
         return login;
-    }
-    
-    public void setLogin(String login) {
-        this.login = login;
     }
     
     public String getPassword() {
         return password;
     }
+
+    public boolean getIsLoggedIn() {
+        return isLoggedIn;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
     
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    public boolean getIsLoggedIn() {
-        return isLoggedIn;
-    }
 
     public void setIsLoggedIn(boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
+    }
+    
+    @Override
+    public String toString() {
+        return "ID: " + id +
+               "\nNome: " + name;
     }
     
     public boolean login(String login, String password) {
@@ -74,14 +80,8 @@ public class Admin {
             return true;
         }
         return false;
-    }
-    
-    @Override
-    public String toString() {
-        return "ID: " + id +
-               "\nNome: " + name;
-    }
-    
+    } 
+
     public Meal newMeal(String description, MealType type, double price) {
         Meal meal = new Meal(description, type, price);
         return meal;

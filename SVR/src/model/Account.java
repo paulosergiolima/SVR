@@ -27,49 +27,21 @@ public class Account {
     public String getLogin() {
         return login;
     }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
+    
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+        
     public boolean getIsLoggedIn() {
         return isLoggedIn;
-    }
-
-    public void setIsLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
     }
     
     public double getCredit() {
         return credit;
     }
-
-    public void setCredit(double credit) {
-        this.credit = credit;
-    }
-
+    
     public ArrayList<Meal> getMealList() {
         return mealList;
-    }
-
-    public void setMealList(ArrayList<Meal> mealList) {
-        this.mealList = mealList;
-    }
-    
-    public void addMeal(Meal meal) {
-        this.mealList.add(meal);
-    }
-    
-    public void removeMeal(Meal meal) {
-        this.mealList.remove(meal);
     }
     
     public Meal getMealByDescription(String description){
@@ -83,6 +55,34 @@ public class Account {
     
     public Meal getMealByIndex(int index) {
         return mealList.get(index);
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setIsLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
+
+    public void setMealList(ArrayList<Meal> mealList) {
+        this.mealList = mealList;
+    }
+    
+    public void addMeal(Meal meal) {
+        this.mealList.add(meal);
+    }
+    
+    public void removeMeal(Meal meal) {
+        this.mealList.remove(meal);
     }
     
     public String toString() {

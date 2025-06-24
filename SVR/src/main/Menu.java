@@ -4,6 +4,7 @@
  */
 package main;
 
+import catalog.Catalog;
 import controller.Controller;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,11 +19,13 @@ import model.User;
  * @author Roberto Augusto
  */
 public class Menu {
+    private final Catalog ctg;
     private final Controller ctrl;
     private final Scanner sc;
     
     public Menu() {
-        ctrl = new Controller();
+        ctg = new Catalog();
+        ctrl = new Controller(ctg);
         sc = new Scanner(System.in);
     }
     
@@ -415,13 +418,17 @@ public class Menu {
             }
         } while(op5 != 1 && op5 != 2 && op5 != 3);
 
-        ctrl.addMeal(description, mealType, price);
+        if(ctrl.addMeal(description, mealType, price)) {
+            System.out.println("\nRefeicao adiciona ao cardapio com sucesso.");
+        } else {
+            System.out.println("\nFalha ao adiconar refeicao ao cardapio.");
+        }
     }
     
     public void removeMealFromMealList() {
         displayMealList();
         System.out.print("Digite o indice do cardapio correspondente a refeicao a ser removida: ");
-        int index = sc.nextInt();
+        int index = sc.nextInt() - 1;
         sc.nextLine();
         if(ctrl.removeMealByIndex(index)) {
             System.out.println("\nRefeicao removida do cardapio com sucesso.");
