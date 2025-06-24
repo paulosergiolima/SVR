@@ -20,6 +20,15 @@ public class Sale {
         return mealList;
     }
     
+    public String displayMealList() {
+        String string = "Refeicoes disponiveis para compra\n\n";
+        for(int i = 0; i < mealList.size(); i++) {
+            string += (i + 1) + ":\n" + mealList.get(i).toString();
+            string += "\n==================================\n";
+        }
+        return string;
+    }
+    
     public void addMeal(Meal meal) {
         mealList.add(meal);
     }
@@ -39,14 +48,5 @@ public class Sale {
             }
         }
         return omnivorousMealCount == 5 && vegetarianMealCount == 5;
-    }
-    
-    public String displayMealList() {
-        String string = "Refeicoes disponiveis para compra\n\n";
-        for(int i = 0; i < mealList.size(); i++) {
-            string += (i + 1) + ":\n" + mealList.get(i).toString();
-            string += "\n==================================\n";
-        }
-        return string;
-    }
+    }    
 }

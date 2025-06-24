@@ -29,23 +29,23 @@ public abstract class User {
     public String getName() {
         return name;
     }
+    
+    public MealType getPreference() {
+        return preference;
+    }
+    
+    public Account getAccount() {
+        return account;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public MealType getPreference() {
-        return preference;
-    }
-
     public void setPreference(MealType preference) {
         this.preference = preference;
     }
-
-    public Account getAccount() {
-        return account;
-    }
-
+    
     public void setAccount(Account account) {
         this.account = account;
     }
