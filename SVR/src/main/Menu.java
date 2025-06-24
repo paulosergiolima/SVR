@@ -4,6 +4,7 @@
  */
 package main;
 
+import persistence.Persistence;
 import catalog.Catalog;
 import controller.Controller;
 import java.util.ArrayList;
@@ -19,67 +20,90 @@ import model.User;
  * @author Roberto Augusto
  */
 public class Menu {
-    private final Catalog ctg;
-    private final Controller ctrl;
+    private Catalog ctg;
+    private Controller ctrl;
     private final Scanner sc;
     
     public Menu() {
-        ctg = new Catalog();
-        ctrl = new Controller(ctg);
         sc = new Scanner(System.in);
     }
     
-    public void displayMenu() {
-        //Admin e refeições adicionadas no Menu para fins de teste
-        
-        Admin admin01 = new Admin("Admin01", "meulogin", "minhasenha");
-        ctrl.setAdmin(admin01);
-        ctrl.addMeal("Bolo de Carne Moida", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("Fricasse de Frango", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("Carne de Panela", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("File de Frango Grelhado", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("Carne Assada", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("Strogonoff de Carnes", MealType.OMNIVOROUS, 2.5);
-        ctrl.addMeal("Ovos Mexidos com Ervilha", MealType.VEGETARIAN, 2.5);
-        ctrl.addMeal("Lentilha de Forno", MealType.VEGETARIAN, 2.5);
-        ctrl.addMeal("Grao de Bico ao Cheiro Verde", MealType.VEGETARIAN, 2.5);
-        ctrl.addMeal("Ervilha ao Vinagrete", MealType.VEGETARIAN, 2.5);
-        ctrl.addMeal("Hamburguer de Soja", MealType.VEGETARIAN, 2.5);
-        ctrl.addMeal("Lasanha de Berinjela com Queijo", MealType.VEGETARIAN, 2.5);
-        
+    private Catalog displayStartupMenu() {
         int op;
         do {
             System.out.println("\nMENU INICIAL:");
-            System.out.println("1 - Cadastrar usuario");
-            System.out.println("2 - Cadastrar admin"); //W.I.P
-            System.out.println("3 - Logar como usuario");
-            System.out.println("4 - Logar como admin"); //W.I.P
+            System.out.println("1 - Carregar dados salvos");
+            System.out.println("2 - Iniciar novo sistema");
             System.out.println("0 - Sair");
             System.out.print("Digite o numero correspondente a opcao desejada: ");
             op = sc.nextInt();
             sc.nextLine();
-            
+
             switch(op) {
                 case 1:
-                    addUser();
-                    break;
+                    Catalog loaded = Persistence.load();
+                    if(loaded == null) {
+                        System.out.println("\nFalha ao carregar dados. Iniciando novo sistema vazio.");
+                        return new Catalog();
+                    } else {
+                        System.out.println("\nDados carregados com sucesso.");
+                        return loaded;
+                    }
                 case 2:
-                    addAdmin();
-                    break;
-                case 3:
-                    userLogin();
-                    break;
-                case 4:
-                    adminLogin();
-                    break;
+                    System.out.println("\nNovo sistema iniciado.");
+                    return new Catalog();
                 case 0:
                     System.out.println("\nProcesso encerrado.");
-                    break;
+                    System.exit(0);
                 default:
                     System.out.println("\nOpcao invalida. Tente novamente.");
-                    break;
             }
-        } while(op != 0);
+        } while(true);  
+    }
+    
+    public void displayMenu() {
+        System.out.println("Bem-vindo ao SVR (Sistema de Venda de Refeicoes)!");
+        while(true) {
+            ctg = displayStartupMenu();
+            ctrl = new Controller(ctg);
+            
+            int op;
+            do {
+                System.out.println("\nMENU DE CADASTRO/LOGIN:");
+                System.out.println("1 - Cadastrar usuario");
+                System.out.println("2 - Cadastrar admin");
+                System.out.println("3 - Logar como usuario");
+                System.out.println("4 - Logar como admin");
+                System.out.println("0 - Voltar");
+                System.out.print("Digite o numero correspondente a opcao desejada: ");
+                op = sc.nextInt();
+                sc.nextLine();
+
+                switch(op) {
+                    case 1:
+                        addUser();
+                        break;
+                    case 2:
+                        addAdmin();
+                        break;
+                    case 3:
+                        userLogin();
+                        break;
+                    case 4:
+                        adminLogin();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("\nOpcao invalida. Tente novamente.");
+                        break;
+                }
+            } while(op != 0);
+        }
+    }
+    
+    private void save() {
+        Persistence.save(ctg);
     }
     
     public void addUser() {
@@ -128,6 +152,7 @@ public class Menu {
                 case 1:
                     if(ctrl.addRegularStudent(name, preference, login, password)) {
                         System.out.println("\nConta criada com sucesso.");
+                        save();
                     } else {
                         System.out.println("\nJa existe um usuario com o login inserido.");
                     }
@@ -135,6 +160,7 @@ public class Menu {
                 case 2:
                     if(ctrl.addPermanenceStudent(name, preference, login, password)) {
                         System.out.println("\nConta criada com sucesso.");
+                        save();
                     } else {
                         System.out.println("\nJa existe um usuario com o login inserido.");
                     }
@@ -142,6 +168,7 @@ public class Menu {
                 case 3:
                     if(ctrl.addTeacher(name, preference, login, password)) {
                         System.out.println("\nConta criada com sucesso.");
+                        save();
                     } else {
                         System.out.println("\nJa existe um usuario com o login inserido.");
                     }
@@ -153,7 +180,6 @@ public class Menu {
         } while(op2 != 1 && op2 != 2 && op2 != 3);
     }
     
-    //Importante melhorar a validação do login
     public void userLogin() {
         System.out.print("\nDigite o login: ");
         String login = sc.nextLine();
@@ -170,7 +196,7 @@ public class Menu {
                 System.out.println("2 - Comprar refeicoes");
                 System.out.println("3 - Transferir refeicao");
                 System.out.println("4 - Exibir informacoes do usuario");
-                System.out.println("5 - Exibir lista de refeicoes disponiveis para compra");
+                System.out.println("5 - Exibir cardapio");
                 System.out.println("0 - Deslogar");
                 System.out.print("Digite o numero correspondente a opcao desejada: ");
                 op3 = sc.nextInt();
@@ -211,6 +237,7 @@ public class Menu {
         sc.nextLine();
         if(ctrl.addCredit(user, credit)) {
             System.out.println("\nCredito adicionado com sucesso.");
+            save();
         } else {
             System.out.println("\nImpossivel adicionar credito negativo.");
         }
@@ -245,6 +272,7 @@ public class Menu {
             purchasedIndexes.add(index);
             i++;
             System.out.println("\nRefeicao comprada com sucesso.");
+            save();
             if(i < 5) {
                 int op4;
                 do {
@@ -265,7 +293,6 @@ public class Menu {
         }
         System.out.println("\nCompra encerrada.");
     }
-  
     
     public void transferMeal(User user) {
         System.out.print("\nDigite o login da conta alvo da transferencia: ");
@@ -277,6 +304,7 @@ public class Menu {
         switch(ctrl.transferMeal(user, login, index)) {
             case 1:
                 System.out.println("\nRefeicao transferida com sucesso.");
+                save();
                 break;
             case -1:
                 System.out.println("\nA refeicao nao existe na lista de refeicoes do usuario.");
@@ -321,6 +349,7 @@ public class Menu {
         Admin admin = new Admin(name, login, password);
         if(ctrl.setAdmin(admin)) {
             System.out.println("\nAdmin cadastrado com sucesso.");
+            save();
         } else {
             System.out.println("\nJa existe um admin cadastrado no sistema.");
         }
@@ -420,6 +449,7 @@ public class Menu {
 
         if(ctrl.addMeal(description, mealType, price)) {
             System.out.println("\nRefeicao adiciona ao cardapio com sucesso.");
+            save();
         } else {
             System.out.println("\nFalha ao adiconar refeicao ao cardapio.");
         }
@@ -432,6 +462,7 @@ public class Menu {
         sc.nextLine();
         if(ctrl.removeMealByIndex(index)) {
             System.out.println("\nRefeicao removida do cardapio com sucesso.");
+            save();
         } else {
             System.out.println("\nIndice fora do intervalo.");
         }
@@ -473,6 +504,7 @@ public class Menu {
         if(ctrl.isValidSale(sale)) {
             ctrl.setCurrentSale(sale);
             System.out.println("\nVenda iniciada com sucesso.");
+            save();
         } else {
             System.out.println("\nVenda invalida.");
         }
@@ -482,6 +514,7 @@ public class Menu {
         if(ctrl.getCurrentSale() != null) {
             ctrl.setCurrentSale(null);
             System.out.println("\nVenda terminada com sucesso.");
+            save();
         } else {
             System.out.println("\nNao ha venda ocorrendo no momento.");
         }
@@ -493,6 +526,7 @@ public class Menu {
         sc.nextLine();
         if(ctrl.setPermanenceDiscount(permanenceDiscount)) {
             System.out.println("Valor de desconto alterado com sucesso.");
+            save();
         } else {
             System.out.println("O valor de desconto deve ser maior que 0 e menor que 1.");
         }
