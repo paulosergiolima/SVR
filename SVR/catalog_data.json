@@ -1,0 +1,114 @@
+{
+  "userList": [
+    {
+      "type": "RegularStudent",
+      "id": "440fe02f-5a94-4e79-928a-ee285542347b",
+      "name": "User01",
+      "preference": "OMNIVOROUS",
+      "account": {
+        "login": "user01@unesp.br",
+        "password": "1001",
+        "isLoggedIn": false,
+        "credit": 0.0,
+        "mealList": []
+      }
+    },
+    {
+      "type": "PermanenceStudent",
+      "discount": 0.3,
+      "id": "85e1f2d9-430c-460e-b538-b3e600a12757",
+      "name": "User02",
+      "preference": "VEGETARIAN",
+      "account": {
+        "login": "user02@unesp.br",
+        "password": "1002",
+        "isLoggedIn": false,
+        "credit": 0.0,
+        "mealList": []
+      }
+    },
+    {
+      "type": "Teacher",
+      "id": "8446e5e9-6b33-480e-ae2b-b812c0770a5a",
+      "name": "User03",
+      "preference": "VEGAN",
+      "account": {
+        "login": "user03@unesp.br",
+        "password": "1003",
+        "isLoggedIn": false,
+        "credit": 0.0,
+        "mealList": []
+      }
+    }
+  ],
+  "admin": {
+    "id": "0ea384d0-ee24-443b-a60f-cfd02de1b7ff",
+    "name": "Admin01",
+    "login": "meulogin",
+    "password": "minhasenha",
+    "isLoggedIn": false
+  },
+  "mealList": [
+    {
+      "description": "Bolo de Carne Moida",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "Fricasse de Frango",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "Carne de Panela",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "File de Frango Grelhado",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "Carne Assada",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "Strogonoff de Carnes",
+      "type": "OMNIVOROUS",
+      "price": 2.5
+    },
+    {
+      "description": "Ovos Mexidos com Ervilha",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    },
+    {
+      "description": "Lentilha de Forno",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    },
+    {
+      "description": "Grao de Bico ao Cheiro Verde",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    },
+    {
+      "description": "Ervilha ao Vinagrete",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    },
+    {
+      "description": "Hamburguer de Soja",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    },
+    {
+      "description": "Lasanha de Berinjela com Queijo",
+      "type": "VEGETARIAN",
+      "price": 2.5
+    }
+  ],
+  "permanenceDiscount": 0.3
+}
