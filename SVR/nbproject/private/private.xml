@@ -3,21 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Meal.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/persistence/Persistence.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Student.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Admin.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/catalog/Catalog.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/main/Main.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Account.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/PermanenceStudent.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/User.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/MealType.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Sale.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/Teacher.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/main/Menu.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/controller/Controller.java</file>
-            <file>file:/C:/Users/inval/Documents/GitHub/SVR/SVR/src/model/RegularStudent.java</file>
+            <file>file:/home/kinipk/SVR/SVR/src/main/Main.java</file>
+            <file>file:/home/kinipk/SVR/SVR/nbproject/build-impl.xml</file>
+            <file>file:/home/kinipk/SVR/SVR/src/model/Admin.java</file>
+            <file>file:/home/kinipk/SVR/SVR/src/persistence/Persistence.java</file>
         </group>
     </open-files>
 </project-private>
