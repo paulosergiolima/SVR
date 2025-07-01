@@ -2,7 +2,6 @@
   "userList": [
     {
       "type": "RegularStudent",
-      "id": "440fe02f-5a94-4e79-928a-ee285542347b",
       "name": "User01",
       "preference": "OMNIVOROUS",
       "account": {
@@ -16,7 +15,6 @@
     {
       "type": "PermanenceStudent",
       "discount": 0.3,
-      "id": "85e1f2d9-430c-460e-b538-b3e600a12757",
       "name": "User02",
       "preference": "VEGETARIAN",
       "account": {
@@ -29,7 +27,6 @@
     },
     {
       "type": "Teacher",
-      "id": "8446e5e9-6b33-480e-ae2b-b812c0770a5a",
       "name": "User03",
       "preference": "VEGAN",
       "account": {
@@ -42,11 +39,10 @@
     }
   ],
   "admin": {
-    "id": "0ea384d0-ee24-443b-a60f-cfd02de1b7ff",
     "name": "Admin01",
     "login": "meulogin",
     "password": "minhasenha",
-    "isLoggedIn": false
+    "isLoggedIn": true
   },
   "mealList": [
     {

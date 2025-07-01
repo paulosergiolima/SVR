@@ -15,8 +15,7 @@ public class Teacher extends User {
     
     @Override
     public String toString() {
-        return "ID: " + id +
-               "\nNome: " + name +
+        return "Nome: " + name +
                "\nTipo de Usuario: Professor" +
                "\nPreferencia: " + preference.getDescription() +
                "\n" + account.toString();
