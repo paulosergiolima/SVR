@@ -4,26 +4,19 @@
  */
 package model;
 
-import java.util.UUID;
 /**
  *
  * @author inval
  */
 public abstract class User {
-    protected final UUID id;
     protected String name;
     protected MealType preference;
     protected Account account;
     
     public User(String name, MealType preference) {
-        this.id = UUID.randomUUID();
         this.name = name;
         this.preference = preference;
         this.account = null;
-    }
-
-    public UUID getId() {
-        return id;
     }
     
     public String getName() {
@@ -99,5 +92,4 @@ public abstract class User {
         }
         return -2; //Tentativa de transferir a refeição para si mesmo
     }
-    //Nota: Interessante trocar os retornos de inteiros para exceções
 }

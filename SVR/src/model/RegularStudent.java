@@ -15,8 +15,7 @@ public class RegularStudent extends Student {
     
     @Override
     public String toString() {
-        return "ID: " + id +
-               "\nNome: " + name +
+        return "Nome: " + name +
                "\nTipo de Usuario: Aluno Regular" +
                "\nPreferencia: " + preference.getDescription() +
                "\n" + account.toString();
