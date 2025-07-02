@@ -4,28 +4,21 @@
  */
 package model;
 
-import java.util.UUID;
 /**
  *
  * @author inval
  */
 public class Admin {
-    private final UUID id;
     private String name;
     private String login;
     private String password;
     private boolean isLoggedIn;
     
     public Admin(String name, String login, String password) {
-        this.id = UUID.randomUUID();
         this.name = name;
         this.login = login;
         this.password = password;
         this.isLoggedIn = false;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getName() {
@@ -62,8 +55,7 @@ public class Admin {
     
     @Override
     public String toString() {
-        return "ID: " + id +
-               "\nNome: " + name;
+        return "Nome: " + name;
     }
     
     public boolean login(String login, String password) {

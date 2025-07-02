@@ -18,8 +18,7 @@ public class PermanenceStudent extends Student {
     
     @Override
     public String toString() {
-        return "ID: " + id +
-               "\nNome: " + name +
+        return "Nome: " + name +
                "\nTipo de Usuario: Aluno Permanencia" +
                "\nPreferencia: " + preference.getDescription() +
                "\n" + account.toString();
